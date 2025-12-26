@@ -15,7 +15,15 @@ kind: app
 version: 0.5.0
 workflow:
   conversation_variables: []
-  environment_variables: []
+  environment_variables:
+  - description: api_key
+    id: 8bb0dd50-b7f4-4420-9b17-08173e54adaa
+    name: API_KEY
+    selector:
+    - env
+    - API_KEY
+    value: ''
+    value_type: secret
   features:
     file_upload:
       allowed_file_extensions:
@@ -105,18 +113,6 @@ workflow:
         isInLoop: false
         sourceType: llm
         targetType: loop
-      id: 1766666714696-source-1766681217998-target
-      selected: false
-      source: '1766666714696'
-      sourceHandle: source
-      target: '1766681217998'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: loop
       id: 1766667562386-source-1766681217998-target
       selected: false
       source: '1766667562386'
@@ -125,34 +121,6 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 0
-    - data:
-        isInIteration: false
-        isInLoop: true
-        loop_id: '1766681217998'
-        sourceType: loop-start
-        targetType: llm
-      id: 1766681217998start-source-17666823941250-target
-      selected: false
-      source: 1766681217998start
-      sourceHandle: source
-      target: '17666823941250'
-      targetHandle: target
-      type: custom
-      zIndex: 1002
-    - data:
-        isInIteration: false
-        isInLoop: true
-        loop_id: '1766681217998'
-        sourceType: llm
-        targetType: if-else
-      id: 17666823941250-source-17666823941251-target
-      selected: false
-      source: '17666823941250'
-      sourceHandle: source
-      target: '17666823941251'
-      targetHandle: target
-      type: custom
-      zIndex: 1002
     - data:
         isInIteration: false
         isInLoop: true
@@ -182,30 +150,120 @@ workflow:
       type: custom
       zIndex: 1002
     - data:
-        isInIteration: false
-        isInLoop: true
-        loop_id: '1766681217998'
-        sourceType: llm
-        targetType: assigner
-      id: 1766682500741-source-1766682647945-target
-      selected: false
-      source: '1766682500741'
-      sourceHandle: source
-      target: '1766682647945'
-      targetHandle: target
-      type: custom
-      zIndex: 1002
-    - data:
         isInLoop: false
         sourceType: loop
         targetType: end
       id: 1766681217998-source-1766680328187-target
+      selected: false
       source: '1766681217998'
       sourceHandle: source
       target: '1766680328187'
       targetHandle: target
       type: custom
       zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        sourceType: http-request
+        targetType: code
+      id: 1766769039651-source-1766769356726-target
+      selected: false
+      source: '1766769039651'
+      sourceHandle: source
+      target: '1766769356726'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        sourceType: code
+        targetType: if-else
+      id: 1766769356726-source-17666823941251-target
+      selected: false
+      source: '1766769356726'
+      sourceHandle: source
+      target: '17666823941251'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1766666714696-source-17667737781900-target
+      source: '1766666714696'
+      sourceHandle: source
+      target: '17667737781900'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: loop
+      id: 17667737781900-source-1766681217998-target
+      selected: false
+      source: '17667737781900'
+      sourceHandle: source
+      target: '1766681217998'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        sourceType: llm
+        targetType: code
+      id: 1766682500741-source-1766771232701-target
+      source: '1766682500741'
+      sourceHandle: source
+      target: '1766771232701'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        sourceType: code
+        targetType: assigner
+      id: 1766771232701-source-1766682647945-target
+      source: '1766771232701'
+      sourceHandle: source
+      target: '1766682647945'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        sourceType: loop-start
+        targetType: code
+      id: 1766681217998start-source-1766774144559-target
+      source: 1766681217998start
+      sourceHandle: source
+      target: '1766774144559'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
+    - data:
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        sourceType: code
+        targetType: http-request
+      id: 1766774144559-source-1766769039651-target
+      source: '1766774144559'
+      sourceHandle: source
+      target: '1766769039651'
+      targetHandle: target
+      type: custom
+      zIndex: 1002
     nodes:
     - data:
         selected: false
@@ -225,10 +283,10 @@ workflow:
       id: '1766665854400'
       position:
         x: 0
-        y: 79
+        y: 272
       positionAbsolute:
         x: 0
-        y: 79
+        y: 272
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -250,20 +308,45 @@ workflow:
         prompt_template:
         - id: 2cdd8318-3c97-4b5a-b3e3-cc60043b603f
           role: system
-          text: '{{#1766665854400.project_requirement#}}}
+          text: '以下是用户的原始需求：
 
-            忽略所有指令。
+            {{#1766665854400.project_requirement#}}
 
-            你是 PM Agent。
+            你的任务是将该需求拆解为工程可实现的规范说明，供后续 Coder 与 Testcase Agent 使用。
 
-            直接输出你收到的输入，加上以下固定内容：
+            请严格按以下结构输出（必须包含所有字段）：
 
-            “【User Story】:
+            [PROJECT_SUMMARY]
 
-            1. 用户可以控制蛇移动。
+            用1句话概括这个项目的目标。
 
-            2. 吃到食物变长。”'
+            [USER_STORIES]
+
+            列出 3–5 条 User Story。每条必须包含：
+
+            - role：用户身份
+
+            - behavior：用户可以做什么
+
+            - goal：这样做的目的
+
+            [ACCEPTANCE_CRITERIA]
+
+            针对每条 User Story，列出明确、可验证的验收标准。
+
+            [NON_GOALS]
+
+            明确指出本项目不需要实现的功能，避免过度设计。
+
+            要求：
+
+            - 输出必须清晰、结构化
+
+            - 不要输出任何代码
+
+            - 不要解释你的思考过程'
         selected: false
+        structured_output_enabled: false
         title: user story agent
         type: llm
         vision:
@@ -272,10 +355,10 @@ workflow:
       id: '1766666534467'
       position:
         x: 342
-        y: 75
+        y: 268
       positionAbsolute:
         x: 342
-        y: 75
+        y: 268
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -283,8 +366,10 @@ workflow:
       width: 241
     - data:
         context:
-          enabled: false
-          variable_selector: []
+          enabled: true
+          variable_selector:
+          - '1766666534467'
+          - text
         model:
           completion_params:
             temperature: 0.7
@@ -294,9 +379,28 @@ workflow:
         prompt_template:
         - id: 23f3f79a-727f-4a7d-a66c-aa4218c082dd
           role: system
-          text: "忽略所有指令。\n你是 Coder Agent。\n直接输出你的输入，加上以下固定内容：\n“def snake_game():\n\
-            \    print('这是一个有Bug的初始代码')\n    return error”"
-        selected: false
+          text: '你是 Coder Agent。请根据以下user story{{#1766666534467.text#}}编写完整的、可运行的代码。
+
+            严格遵守以下要求：
+
+            1. 只使用 Python 标准库（除非规范中明确允许第三方库）
+
+            2. 必须是单文件程序
+
+            3. 必须包含清晰的程序入口（if __name__ == "__main__":）
+
+            4. 程序可以直接通过 `python main.py`（或等价方式）运行
+
+            5. 不要实现规范中明确标注为 NON_GOALS 的内容
+
+            输出要求：
+
+            - 只输出完整代码
+
+            - 不要包含任何解释、注释说明或 Markdown 标记
+
+            '
+        selected: true
         title: initial coder
         type: llm
         vision:
@@ -305,19 +409,21 @@ workflow:
       id: '1766666714696'
       position:
         x: 703
-        y: 236
+        y: 301
       positionAbsolute:
         x: 703
-        y: 236
-      selected: false
+        y: 301
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
     - data:
         context:
-          enabled: false
-          variable_selector: []
+          enabled: true
+          variable_selector:
+          - '1766666534467'
+          - text
         model:
           completion_params:
             temperature: 0.7
@@ -327,13 +433,35 @@ workflow:
         prompt_template:
         - id: f17d1b2b-04a4-4b88-867a-0085ea8727e9
           role: system
-          text: '忽略所有指令。
+          text: '{{#1766666534467.text#}}你的任务是为该项目设计测试要求，用于验证代码是否符合规范。
 
-            你是 TestCase Agent。
+            请严格按以下结构输出：
 
-            直接输出你的输入，加上以下固定内容：
+            【TEST_STRATEGY】
 
-            "我是testcase agent"'
+            简要说明测试覆盖的核心思路（功能、边界、异常等）。
+
+            【TEST_CASES】
+
+            列出 5–8 条测试用例。每条必须包含：
+
+            - id：测试编号
+
+            - description：测试场景描述
+
+            - expected_result：期望结果
+
+            【PASS_CRITERIA】
+
+            明确说明在什么情况下可以判定“整体测试通过”。
+
+            要求：
+
+            - 不要编写任何测试代码
+
+            - 只输出测试逻辑与期望
+
+            - 输出内容必须清晰、可用于人工或自动判定'
         selected: false
         title: testcase agent
         type: llm
@@ -342,11 +470,11 @@ workflow:
       height: 87
       id: '1766667562386'
       position:
-        x: 703
-        y: 69
+        x: 813
+        y: 152
       positionAbsolute:
-        x: 703
-        y: 69
+        x: 813
+        y: 152
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -365,11 +493,11 @@ workflow:
       height: 87
       id: '1766680328187'
       position:
-        x: 2632
-        y: 125
+        x: 3918
+        y: 215
       positionAbsolute:
-        x: 2632
-        y: 125
+        x: 3918
+        y: 215
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -378,35 +506,35 @@ workflow:
     - data:
         break_conditions: []
         error_handle_mode: terminated
-        height: 338
+        height: 518
         logical_operator: and
-        loop_count: 10
+        loop_count: 3
         loop_variables:
         - id: 830d1fc9-96bc-4ba1-b05b-9f2ab4e2cae9
           label: current_code
           value:
-          - '1766666714696'
-          - text
+          - '17667737781900'
+          - current_code
           value_type: variable
           var_type: string
         selected: false
         start_node_id: 1766681217998start
         title: 循环
         type: loop
-        width: 1468
-      height: 338
+        width: 2433
+      height: 518
       id: '1766681217998'
       position:
-        x: 1064
+        x: 1385
         y: 0
       positionAbsolute:
-        x: 1064
+        x: 1385
         y: 0
       selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 1468
+      width: 2433
       zIndex: 1
     - data:
         desc: ''
@@ -420,10 +548,10 @@ workflow:
       parentId: '1766681217998'
       position:
         x: 60
-        y: 102
+        y: 173
       positionAbsolute:
-        x: 1124
-        y: 102
+        x: 1445
+        y: 173
       selectable: false
       sourcePosition: right
       targetPosition: left
@@ -455,56 +583,16 @@ workflow:
       type: custom-note
       width: 240
     - data:
-        context:
-          enabled: false
-          variable_selector: []
-        desc: takes in testcase+code, run code for testcase
-        isInLoop: true
-        model:
-          completion_params:
-            temperature: 0.7
-          mode: chat
-          name: gpt-3.5-turbo
-          provider: langgenius/openai/openai
-        prompt_template:
-        - id: 95897c9b-681d-456f-a710-32ac11345d71
-          role: system
-          text: '{{#1766667562386.text#}}
-
-            {{#1766666714696.text#}}
-
-            固定输出"failed"'
-        selected: false
-        structured_output_enabled: true
-        title: QA agent (1)
-        type: llm
-        vision:
-          enabled: false
-      height: 131
-      id: '17666823941250'
-      parentId: '1766681217998'
-      position:
-        x: 184
-        y: 60
-      positionAbsolute:
-        x: 1248
-        y: 60
-      selected: false
-      sourcePosition: right
-      targetPosition: left
-      type: custom
-      width: 241
-    - data:
         cases:
         - case_id: 'true'
           conditions:
-          - comparison_operator: contains
+          - comparison_operator: is
             id: 8fe66ca4-5c80-4bf3-a797-56faa5c10819
-            value: failed
-            varType: string
+            value: false
+            varType: boolean
             variable_selector:
-            - '17666823941250'
-            - text
+            - '1766769356726'
+            - is_pass
           id: 'true'
           logical_operator: and
         isInLoop: true
@@ -515,11 +603,11 @@ workflow:
       id: '17666823941251'
       parentId: '1766681217998'
       position:
-        x: 505
-        y: 64
+        x: 1147
+        y: 135
       positionAbsolute:
-        x: 1569
-        y: 64
+        x: 2532
+        y: 135
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -536,11 +624,12 @@ workflow:
       id: '1766682485472'
       parentId: '1766681217998'
       position:
-        x: 826
-        y: 78
+        x: 1488
+        y: 60
       positionAbsolute:
-        x: 1890
-        y: 78
+        x: 2873
+        y: 60
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom-simple
@@ -562,7 +651,31 @@ workflow:
         prompt_template:
         - id: 13d78372-655a-4b59-9419-8b54ed53876c
           role: system
-          text: 固定输出"finished bug x"，x从0开始每次加一
+          text: '当前代码未通过测试，测试反馈如下：
+
+            {{#1766769356726.error_log#}}
+
+            当前代码如下：
+
+            {{#1766681217998.current_code#}}
+
+            你的任务是根据测试反馈修复代码。
+
+            修复要求：
+
+            1. 只进行为修复失败原因所必需的最小修改
+
+            2. 不要重构整体架构
+
+            3. 保持程序的运行方式与入口不变
+
+            4. 修复后应满足所有测试要求与产品规范
+
+            输出要求：
+
+            - 只输出【修复后的完整代码】
+
+            - 不要输出任何解释、说明或 Markdown'
         selected: false
         title: Debugging Agent
         type: llm
@@ -572,11 +685,11 @@ workflow:
       id: '1766682500741'
       parentId: '1766681217998'
       position:
-        x: 846
-        y: 191
+        x: 1488
+        y: 173
       positionAbsolute:
-        x: 1910
-        y: 191
+        x: 2873
+        y: 173
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -590,8 +703,8 @@ workflow:
         - input_type: variable
           operation: over-write
           value:
-          - '1766682500741'
-          - text
+          - '1766771232701'
+          - current_code
           variable_selector:
           - '1766681217998'
           - current_code
@@ -605,19 +718,246 @@ workflow:
       id: '1766682647945'
       parentId: '1766681217998'
       position:
-        x: 1167
-        y: 193
+        x: 2130
+        y: 175
       positionAbsolute:
-        x: 2231
-        y: 193
-      selected: true
+        x: 3515
+        y: 175
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1002
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-325
+            key: ''
+            type: text
+            value: '{{#1766774144559.payload#}}'
+          type: json
+        headers: Authorization:Bearer {{#env.API_KEY#}}
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: Code Exec API
+        type: http-request
+        url: https://vercel-code-runner.vercel.app/api/exec
+        variables: []
+      height: 136
+      id: '1766769039651'
+      parentId: '1766681217998'
+      position:
+        x: 505
+        y: 129
+      positionAbsolute:
+        x: 1890
+        y: 129
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1002
+    - data:
+        code: "def main(exec_output: str) -> dict:\n    \"\"\"\n    输入: Vercel 返回的\
+          \ json 字符串\n    输出: 结构化的判断结果\n    \"\"\"\n\n    # 1. 默认失败\n    is_pass =\
+          \ False\n    \n    # 2. 核心判断逻辑 (根据 unittest 的标准输出)\n    # 如果通过，通常包含 \"OK\"\
+          \n    # 如果失败，通常包含 \"FAILED\" 或 \"Error\"\n    if \"OK\" in exec_output and\
+          \ \"FAILED\" not in exec_output:\n        is_pass = True\n        \n   \
+          \ return {\n        \"is_pass\": is_pass,\n        # 把原始报错截取出来，喂给后面的 Debugger\
+          \ 用\n        \"error_log\": exec_output \n    }"
+        code_language: python3
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        outputs:
+          error_log:
+            children: null
+            type: string
+          is_pass:
+            children: null
+            type: boolean
+        selected: false
+        title: QA Judge
+        type: code
+        variables:
+        - value_selector:
+          - '1766769039651'
+          - body
+          value_type: string
+          variable: exec_output
+      height: 51
+      id: '1766769356726'
+      parentId: '1766681217998'
+      position:
+        x: 826
+        y: 171
+      positionAbsolute:
+        x: 2211
+        y: 171
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1002
+    - data:
+        code: "import re\nimport json\n\ndef main(llm_output: str) -> dict:\n    code\
+          \ = llm_output.strip()\n    \n    # ----------------------------------------\n\
+          \    # 1. 尝试剥离 Markdown (```python ... ```)\n    # ----------------------------------------\n\
+          \    # 这里的正则解释：\n    # ```             -> 匹配开头反引号\n    # (?:python|json)?\
+          \ -> 可选的语言标记 (python 或 json)，?:表示不捕获\n    # \\s* -> 吃掉换行符\n    # (.*?) \
+          \          -> 核心捕获组：提取中间的所有代码 (非贪婪)\n    # ```             -> 匹配结尾反引号\n\
+          \    # re.DOTALL       -> 让点号(.)可以匹配换行符，这很关键！\n    pattern = r\"```(?:python|json)?\\\
+          s*(.*?)```\"\n    match = re.search(pattern, code, re.DOTALL | re.IGNORECASE)\n\
+          \    \n    if match:\n        code = match.group(1).strip()\n    \n    #\
+          \ ----------------------------------------\n    # 2. 如果这本身是一段 JSON 字符串（有时候\
+          \ LLM 会把 JSON 包在 Markdown 里）\n    #    我们需要把它解开，只拿里面的 code 字段\n    # ----------------------------------------\n\
+          \n    # 我觉得这一段可以注释掉\n    try:\n        # 尝试解析 JSON\n        data = json.loads(code)\n\
+          \        if isinstance(data, dict) and \"code\" in data:\n            code\
+          \ = data[\"code\"]\n    except json.JSONDecodeError:\n        # 如果不是 JSON，那说明剥离\
+          \ Markdown 后就是纯 Python 代码了，不做处理\n        pass\n\n    # http_body_struct\
+          \ = {\n    #     \"code\": code\n    # }\n    # python打包json，不用dify打包\n\
+          \    return {\n        # \"payload\": json.dumps(http_body_struct) ,\n \
+          \       # 输出变成了字符串：{\"code\": \"def ...\"}\n        \"current_code\": code\n\
+          \n    }"
+        code_language: python3
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        outputs:
+          current_code:
+            children: null
+            type: string
+        selected: false
+        title: Code Cleaner
+        type: code
+        variables:
+        - value_selector:
+          - '1766682500741'
+          - text
+          value_type: string
+          variable: llm_output
+      height: 51
+      id: '1766771232701'
+      parentId: '1766681217998'
+      position:
+        x: 1809
+        y: 191
+      positionAbsolute:
+        x: 3194
+        y: 191
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1002
+    - data:
+        code: "import re\nimport json\n\ndef main(llm_output: str) -> dict:\n    code\
+          \ = llm_output.strip()\n    \n    # ----------------------------------------\n\
+          \    # 1. 尝试剥离 Markdown (```python ... ```)\n    # ----------------------------------------\n\
+          \    # 这里的正则解释：\n    # ```             -> 匹配开头反引号\n    # (?:python|json)?\
+          \ -> 可选的语言标记 (python 或 json)，?:表示不捕获\n    # \\s* -> 吃掉换行符\n    # (.*?) \
+          \          -> 核心捕获组：提取中间的所有代码 (非贪婪)\n    # ```             -> 匹配结尾反引号\n\
+          \    # re.DOTALL       -> 让点号(.)可以匹配换行符，这很关键！\n    pattern = r\"```(?:python|json)?\\\
+          s*(.*?)```\"\n    match = re.search(pattern, code, re.DOTALL | re.IGNORECASE)\n\
+          \    \n    if match:\n        code = match.group(1).strip()\n    \n    #\
+          \ ----------------------------------------\n    # 2. 如果这本身是一段 JSON 字符串（有时候\
+          \ LLM 会把 JSON 包在 Markdown 里）\n    #    我们需要把它解开，只拿里面的 code 字段\n    # ----------------------------------------\n\
+          \n    # 我觉得这一段可以注释掉\n    try:\n        # 尝试解析 JSON\n        data = json.loads(code)\n\
+          \        if isinstance(data, dict) and \"code\" in data:\n            code\
+          \ = data[\"code\"]\n    except json.JSONDecodeError:\n        # 如果不是 JSON，那说明剥离\
+          \ Markdown 后就是纯 Python 代码了，不做处理\n        pass\n\n    http_body_struct =\
+          \ {\n        \"code\": code\n    }\n    # python打包json，不用dify打包\n    return\
+          \ {\n        \"current_code\": code\n\n    }"
+        code_language: python3
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        outputs:
+          current_code:
+            children: null
+            type: string
+        selected: false
+        title: Code Cleaner (1)
+        type: code
+        variables:
+        - value_selector:
+          - '1766666714696'
+          - text
+          value_type: string
+          variable: llm_output
+      height: 51
+      id: '17667737781900'
+      position:
+        x: 1044
+        y: 319
+      positionAbsolute:
+        x: 1044
+        y: 319
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1002
+    - data:
+        code: "import json\n\ndef main(current_code: str) -> dict:\n    # 构造 Payload\
+          \ 字典\n    # 这里可以扩展：如果你以后想传 test_cases，也可以加在这里\n    payload_dict = {\n  \
+          \      \"code\": current_code\n    }\n    \n    return {\n        \"payload\"\
+          : json.dumps(payload_dict)\n    }"
+        code_language: python3
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        outputs:
+          payload:
+            children: null
+            type: string
+        selected: false
+        title: payload parser
+        type: code
+        variables:
+        - value_selector:
+          - '1766681217998'
+          - current_code
+          value_type: string
+          variable: current_code
+      height: 51
+      id: '1766774144559'
+      parentId: '1766681217998'
+      position:
+        x: 184
+        y: 171
+      positionAbsolute:
+        x: 1569
+        y: 171
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
       zIndex: 1002
     viewport:
-      x: -849.6589303733602
-      y: 181.9071644803229
-      zoom: 0.42785065590312815
+      x: -82.5498169812106
+      y: 74.72839509467616
+      zoom: 0.4824949326945132
   rag_pipeline_variables: []
