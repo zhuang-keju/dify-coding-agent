@@ -85,19 +85,6 @@ workflow:
       type: custom
       zIndex: 0
     - data:
-        isInIteration: false
-        isInLoop: false
-        sourceType: llm
-        targetType: llm
-      id: 1766666534467-source-1766667562386-target
-      selected: false
-      source: '1766666534467'
-      sourceHandle: source
-      target: '1766667562386'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInLoop: false
         sourceType: llm
         targetType: llm
@@ -106,18 +93,6 @@ workflow:
       source: '1766666534467'
       sourceHandle: source
       target: '1766666714696'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
-        isInLoop: false
-        sourceType: llm
-        targetType: loop
-      id: 1766667562386-source-1766681217998-target
-      selected: false
-      source: '1766667562386'
-      sourceHandle: source
-      target: '1766681217998'
       targetHandle: target
       type: custom
       zIndex: 0
@@ -201,18 +176,6 @@ workflow:
       type: custom
       zIndex: 0
     - data:
-        isInLoop: false
-        sourceType: code
-        targetType: loop
-      id: 17667737781900-source-1766681217998-target
-      selected: false
-      source: '17667737781900'
-      sourceHandle: source
-      target: '1766681217998'
-      targetHandle: target
-      type: custom
-      zIndex: 0
-    - data:
         isInIteration: false
         isInLoop: true
         loop_id: '1766681217998'
@@ -264,6 +227,39 @@ workflow:
       targetHandle: target
       type: custom
       zIndex: 1002
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1766667562386-source-17668141792250-target
+      source: '1766667562386'
+      sourceHandle: source
+      target: '17668141792250'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: loop
+      id: 17668141792250-source-1766681217998-target
+      source: '17668141792250'
+      sourceHandle: source
+      target: '1766681217998'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: code
+        targetType: llm
+      id: 17667737781900-source-1766667562386-target
+      source: '17667737781900'
+      sourceHandle: source
+      target: '1766667562386'
+      targetHandle: target
+      type: custom
+      zIndex: 0
     nodes:
     - data:
         selected: false
@@ -283,10 +279,10 @@ workflow:
       id: '1766665854400'
       position:
         x: 0
-        y: 272
+        y: 205
       positionAbsolute:
         x: 0
-        y: 272
+        y: 205
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -303,7 +299,7 @@ workflow:
           completion_params:
             temperature: 0.7
           mode: chat
-          name: gpt-3.5-turbo
+          name: gpt-4o-mini
           provider: langgenius/openai/openai
         prompt_template:
         - id: 2cdd8318-3c97-4b5a-b3e3-cc60043b603f
@@ -355,10 +351,10 @@ workflow:
       id: '1766666534467'
       position:
         x: 342
-        y: 268
+        y: 201
       positionAbsolute:
         x: 342
-        y: 268
+        y: 201
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -374,7 +370,7 @@ workflow:
           completion_params:
             temperature: 0.7
           mode: chat
-          name: gpt-3.5-turbo
+          name: gpt-4o-mini
           provider: langgenius/openai/openai
         prompt_template:
         - id: 23f3f79a-727f-4a7d-a66c-aa4218c082dd
@@ -400,7 +396,7 @@ workflow:
             - 不要包含任何解释、注释说明或 Markdown 标记
 
             '
-        selected: true
+        selected: false
         title: initial coder
         type: llm
         vision:
@@ -408,12 +404,12 @@ workflow:
       height: 87
       id: '1766666714696'
       position:
-        x: 703
-        y: 301
+        x: 683
+        y: 215
       positionAbsolute:
-        x: 703
-        y: 301
-      selected: true
+        x: 683
+        y: 215
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -424,57 +420,50 @@ workflow:
           variable_selector:
           - '1766666534467'
           - text
+        desc: generate testcase using unittest
         model:
           completion_params:
             temperature: 0.7
           mode: chat
-          name: gpt-3.5-turbo
+          name: gpt-4o-mini
           provider: langgenius/openai/openai
         prompt_template:
         - id: f17d1b2b-04a4-4b88-867a-0085ea8727e9
           role: system
-          text: '{{#1766666534467.text#}}你的任务是为该项目设计测试要求，用于验证代码是否符合规范。
-
-            请严格按以下结构输出：
-
-            【TEST_STRATEGY】
-
-            简要说明测试覆盖的核心思路（功能、边界、异常等）。
-
-            【TEST_CASES】
-
-            列出 5–8 条测试用例。每条必须包含：
-
-            - id：测试编号
-
-            - description：测试场景描述
-
-            - expected_result：期望结果
-
-            【PASS_CRITERIA】
-
-            明确说明在什么情况下可以判定“整体测试通过”。
-
-            要求：
-
-            - 不要编写任何测试代码
-
-            - 只输出测试逻辑与期望
-
-            - 输出内容必须清晰、可用于人工或自动判定'
+          text: "# Role\n你是一个 Python QA 测试专家。你的任务是为给定的代码编写 `unittest` 测试用例。\n\n# Inputs\n\
+            你拥有以下输入：\n1. **User Story (用户需求):** `{{#1766666534467.text#}}`\n2. **Source\
+            \ Code (业务代码):** `{{#17667737781900.current_code#}}` - 这是上一步生成的业务逻辑代码。\n\
+            \n# Execution Context (CRITICAL)\n你的测试代码将在一个**共享内存环境**中运行：\n1. **NO IMPORTS:**\
+            \ 假设 `Source Code` 中的函数和类**已经定义在当前环境**中。不要导入任何`Source Code`中的包，直接调用业务函数即可。\n\
+            \   - 例如：如果源代码里定义了 `def add(a,b):`，你的测试里直接写 `add(1, 2)`。\n2. **Library\
+            \ Imports:** 你依然需要导入 `unittest` 和 `unittest.mock`（如果需要）。\n\nRULE: NO MENTAL\
+            \ MATH (禁止心算) When writing assertEqual, DO NOT calculate the expected\
+            \ value yourself. Write the mathematical expression and let Python calculate\
+            \ it.\n❌ Bad: self.assertEqual(result, 27) (You might calculate wrong)\
+            \ ✅ Good: self.assertEqual(result, 12 + (10 - 5) * 3) (Safe & Accurate)\n\
+            \n\n# Workflow\n1. **Analyze Code:** 阅读 `Source Code`，提取主函数名或类名（例如 `solution`\
+            \ 或 `calculate_tax`）。\n2. **Verify Logic:** 根据 `User Story` 理解预期的输入输出。\n\
+            3. **Write Tests:** 编写一个继承自 `unittest.TestCase` 的类。\n   - 包含正常情况 (Happy\
+            \ Path)。\n   - 包含边界情况 (Edge Cases)。\n\n# Output Format (JSON)\n请输出且仅输出一个\
+            \ JSON 列表，代表你的所有测试文件，列表里的每个json object代表一个测试文件。即使你觉得只需要一个测试文件，也要用json列表来包装\n\
+            \n格式要求：\n```json\n[\n  {\n    \"filename\": \"test.py\",\n    \"suffix\"\
+            : \"py\",\n    \"content\": \"import unittest\\n\\nclass TestSolution(unittest.TestCase):\\\
+            n    def test_case_1(self):\\n        # 直接调用函数，无需导入\\n        self.assertEqual(solution(1,\
+            \ 2), 3)\",\n    \"type\": \"test\"\n  }\n]\n\nConstraints:\n不要包含 Markdown\
+            \ 代码块标记（如 ```python）。\n确保 JSON 格式合法。\n不要使用 if __name__ == '__main__':。\n"
         selected: false
         title: testcase agent
         type: llm
         vision:
           enabled: false
-      height: 87
+      height: 115
       id: '1766667562386'
       position:
-        x: 813
-        y: 152
+        x: 1365
+        y: 201
       positionAbsolute:
-        x: 813
-        y: 152
+        x: 1365
+        y: 201
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -493,10 +482,10 @@ workflow:
       height: 87
       id: '1766680328187'
       position:
-        x: 3918
+        x: 4580
         y: 215
       positionAbsolute:
-        x: 3918
+        x: 4580
         y: 215
       selected: false
       sourcePosition: right
@@ -517,6 +506,13 @@ workflow:
           - current_code
           value_type: variable
           var_type: string
+        - id: b69e4f08-ee66-49e7-af2c-4845110025ed
+          label: current_testcase
+          value:
+          - '17668141792250'
+          - current_testcase
+          value_type: variable
+          var_type: string
         selected: false
         start_node_id: 1766681217998start
         title: 循环
@@ -525,10 +521,10 @@ workflow:
       height: 518
       id: '1766681217998'
       position:
-        x: 1385
+        x: 2047
         y: 0
       positionAbsolute:
-        x: 1385
+        x: 2047
         y: 0
       selected: false
       sourcePosition: right
@@ -550,7 +546,7 @@ workflow:
         x: 60
         y: 173
       positionAbsolute:
-        x: 1445
+        x: 2107
         y: 173
       selectable: false
       sourcePosition: right
@@ -606,7 +602,7 @@ workflow:
         x: 1147
         y: 135
       positionAbsolute:
-        x: 2532
+        x: 3194
         y: 135
       selected: false
       sourcePosition: right
@@ -627,7 +623,7 @@ workflow:
         x: 1488
         y: 60
       positionAbsolute:
-        x: 2873
+        x: 3535
         y: 60
       selected: false
       sourcePosition: right
@@ -646,7 +642,7 @@ workflow:
           completion_params:
             temperature: 0.7
           mode: chat
-          name: gpt-3.5-turbo
+          name: gpt-4o-mini
           provider: langgenius/openai/openai
         prompt_template:
         - id: 13d78372-655a-4b59-9419-8b54ed53876c
@@ -688,7 +684,7 @@ workflow:
         x: 1488
         y: 173
       positionAbsolute:
-        x: 2873
+        x: 3535
         y: 173
       selected: false
       sourcePosition: right
@@ -721,7 +717,7 @@ workflow:
         x: 2130
         y: 175
       positionAbsolute:
-        x: 3515
+        x: 4177
         y: 175
       selected: false
       sourcePosition: right
@@ -767,7 +763,7 @@ workflow:
         x: 505
         y: 129
       positionAbsolute:
-        x: 1890
+        x: 2552
         y: 129
       selected: false
       sourcePosition: right
@@ -776,13 +772,17 @@ workflow:
       width: 241
       zIndex: 1002
     - data:
-        code: "def main(exec_output: str) -> dict:\n    \"\"\"\n    输入: Vercel 返回的\
-          \ json 字符串\n    输出: 结构化的判断结果\n    \"\"\"\n\n    # 1. 默认失败\n    is_pass =\
-          \ False\n    \n    # 2. 核心判断逻辑 (根据 unittest 的标准输出)\n    # 如果通过，通常包含 \"OK\"\
-          \n    # 如果失败，通常包含 \"FAILED\" 或 \"Error\"\n    if \"OK\" in exec_output and\
-          \ \"FAILED\" not in exec_output:\n        is_pass = True\n        \n   \
-          \ return {\n        \"is_pass\": is_pass,\n        # 把原始报错截取出来，喂给后面的 Debugger\
-          \ 用\n        \"error_log\": exec_output \n    }"
+        code: "import json\n\ndef main(exec_output: str) -> dict:\n    # exec_output\
+          \ 是 HTTP 节点输出的 Body 字符串\n    try:\n        result = json.loads(exec_output)\n\
+          \    except:\n        return {\"is_pass\": False, \"error_log\": \"Vercel\
+          \ response parse failed\"}\n\n    # 直接读取 Vercel 返回的布尔值\n    is_pass = result.get(\"\
+          is_pass\", False)\n    \n    # 构造给 Debugger 看的错误日志\n    # 如果失败，重点展示 stderr\
+          \ (unittest 输出) 和 error (堆栈信息)\n    error_log = \"\"\n    if not is_pass:\n\
+          \        error_log = f\"Summary: {result.get('summary')}\\n\"\n        error_log\
+          \ += f\"Details:\\n{result.get('stderr')}\\n\"\n        if result.get('error'):\n\
+          \             error_log += f\"Traceback:\\n{result.get('error')}\"\n   \
+          \ \n    return {\n        \"is_pass\": is_pass,\n        \"error_log\":\
+          \ error_log\n    }"
         code_language: python3
         isInIteration: false
         isInLoop: true
@@ -810,7 +810,7 @@ workflow:
         x: 826
         y: 171
       positionAbsolute:
-        x: 2211
+        x: 2873
         y: 171
       selected: false
       sourcePosition: right
@@ -862,7 +862,7 @@ workflow:
         x: 1809
         y: 191
       positionAbsolute:
-        x: 3194
+        x: 3856
         y: 191
       selected: false
       sourcePosition: right
@@ -908,11 +908,11 @@ workflow:
       height: 51
       id: '17667737781900'
       position:
-        x: 1044
-        y: 319
+        x: 1024
+        y: 233
       positionAbsolute:
-        x: 1044
-        y: 319
+        x: 1024
+        y: 233
       selected: false
       sourcePosition: right
       targetPosition: left
@@ -920,10 +920,11 @@ workflow:
       width: 241
       zIndex: 1002
     - data:
-        code: "import json\n\ndef main(current_code: str) -> dict:\n    # 构造 Payload\
-          \ 字典\n    # 这里可以扩展：如果你以后想传 test_cases，也可以加在这里\n    payload_dict = {\n  \
-          \      \"code\": current_code\n    }\n    \n    return {\n        \"payload\"\
-          : json.dumps(payload_dict)\n    }"
+        code: "import json\n\ndef main(current_code: str, current_testcase: str) ->\
+          \ dict:\n    # 构造 Payload 字典\n    # 这里可以扩展：如果你以后想传 test_cases，也可以加在这里\n\
+          \    assert current_testcase is not None\n    payload_dict = {\n       \
+          \ \"code\": current_code,\n        \"test\": current_testcase\n    }\n \
+          \   \n    return {\n        \"payload\": json.dumps(payload_dict)\n    }"
         code_language: python3
         isInIteration: false
         isInLoop: true
@@ -941,6 +942,11 @@ workflow:
           - current_code
           value_type: string
           variable: current_code
+        - value_selector:
+          - '1766681217998'
+          - current_testcase
+          value_type: string
+          variable: current_testcase
       height: 51
       id: '1766774144559'
       parentId: '1766681217998'
@@ -948,7 +954,7 @@ workflow:
         x: 184
         y: 171
       positionAbsolute:
-        x: 1569
+        x: 2231
         y: 171
       selected: false
       sourcePosition: right
@@ -956,8 +962,67 @@ workflow:
       type: custom
       width: 241
       zIndex: 1002
+    - data:
+        code: "import re\nimport json\n\ndef remove_trailing_slash(content):\n   \
+          \ # === ✂️ 核心清洗区 Start ===\n    \n    # 1. 移除首尾空白\n    content = content.strip()\n\
+          \    \n    # 2. \U0001F525 暴力移除末尾的垃圾字符 /n 或 \\n \n    # 有时候模型会重复写好几个，所以用\
+          \ while 循环删干净\n    while content.endswith(\"/n\") or content.endswith(\"\
+          \\\\n\"):\n        if content.endswith(\"/n\"):\n            content = content[:-2]\n\
+          \        elif content.endswith(\"\\\\n\"):\n            content = content[:-2]\n\
+          \    \n    # 3. 再次移除可能剩下的空白\n    content = content.strip()\n    return content\n\
+          \n\n\n\ndef main(llm_output: str) -> dict:\n    code = llm_output.strip()\n\
+          \    \n    # ----------------------------------------\n    # 1. 尝试剥离 Markdown\
+          \ (```python ... ```)\n    # ----------------------------------------\n\
+          \    # 这里的正则解释：\n    # ```             -> 匹配开头反引号\n    # (?:python|json)?\
+          \ -> 可选的语言标记 (python 或 json)，?:表示不捕获\n    # \\s* -> 吃掉换行符\n    # (.*?) \
+          \          -> 核心捕获组：提取中间的所有代码 (非贪婪)\n    # ```             -> 匹配结尾反引号\n\
+          \    # re.DOTALL       -> 让点号(.)可以匹配换行符，这很关键！\n    pattern = r\"```(?:python|json)?\\\
+          s*(.*?)```\"\n    match = re.search(pattern, code, re.DOTALL | re.IGNORECASE)\n\
+          \    \n    if match:\n        code = match.group(1).strip()\n    \n    #\
+          \ ----------------------------------------\n    # 2. 如果这本身是一段 JSON 字符串（有时候\
+          \ LLM 会把 JSON 包在 Markdown 里）\n    #    我们需要把它解开，只拿里面的 code 字段\n    # ----------------------------------------\n\
+          \n    # 我觉得这一段可以注释掉\n    try:\n        # 尝试解析 JSON\n        data = json.loads(code)\n\
+          \        if isinstance(data, dict) and \"code\" in data:\n            code\
+          \ = data[\"code\"]\n    except json.JSONDecodeError:\n        # 如果不是 JSON，那说明剥离\
+          \ Markdown 后就是纯 Python 代码了，不做处理\n        pass\n\n    code = json.loads(code)\n\
+          \    if isinstance(code, dict):\n        code = [code]\n    code_extracted\
+          \ = \"\"\n    for obj in code:\n        if obj[\"suffix\"] == \"py\":\n\
+          \            obj_code = obj[\"content\"]\n            obj_code = remove_trailing_slash(obj_code)\n\
+          \            code_extracted += obj_code + \"\\n\"\n\n    # python打包json，不用dify打包\n\
+          \    return {\n        \"current_testcase\": code_extracted\n\n    }"
+        code_language: python3
+        isInIteration: false
+        isInLoop: true
+        loop_id: '1766681217998'
+        outputs:
+          current_testcase:
+            children: null
+            type: string
+        selected: false
+        title: Code Cleaner (2)
+        type: code
+        variables:
+        - value_selector:
+          - '1766667562386'
+          - text
+          value_type: string
+          variable: llm_output
+      height: 51
+      id: '17668141792250'
+      position:
+        x: 1706
+        y: 233
+      positionAbsolute:
+        x: 1706
+        y: 233
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 1002
     viewport:
-      x: -82.5498169812106
-      y: 74.72839509467616
-      zoom: 0.4824949326945132
+      x: -1148.6270005879355
+      y: 206.04613241184686
+      zoom: 0.4113315376233915
   rag_pipeline_variables: []
