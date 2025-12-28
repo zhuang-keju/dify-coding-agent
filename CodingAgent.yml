@@ -304,50 +304,31 @@ workflow:
         prompt_template:
         - id: 2cdd8318-3c97-4b5a-b3e3-cc60043b603f
           role: system
-          text: '以下是用户的原始需求：
-
-            {{#1766665854400.project_requirement#}}
-
-            你的任务是将该需求拆解为工程可实现的规范说明，供后续 Coder 与 Testcase Agent 使用。
-
-            请严格按以下结构输出（必须包含所有字段）：
-
-            [PROJECT_SUMMARY]
-
-            用1句话概括这个项目的目标。
-
-            [USER_STORIES]
-
-            列出 3–5 条 User Story。每条必须包含：
-
-            - role：用户身份
-
-            - behavior：用户可以做什么
-
-            - goal：这样做的目的
-
-            [ACCEPTANCE_CRITERIA]
-
-            针对每条 User Story，列出明确、可验证的验收标准。
-
-            [NON_GOALS]
-
-            明确指出本项目不需要实现的功能，避免过度设计。
-
-            要求：
-
-            - 输出必须清晰、结构化
-
-            - 不要输出任何代码
-
-            - 不要解释你的思考过程'
+          text: "# Role\n你是一个**技术产品经理 (Technical Product Manager)**。\n你的特长是平衡业务需求与技术约束。你负责给开发团队（Coder\
+            \ Agent）和测试团队（Test Agent）输出精准的需求文档。\n\n# Task\n分析用户输入 {{#1766665854400.project_requirement#}}。\n\
+            1.  **识别硬性约束：** 检查用户是否指定了具体的约束，如**数据结构**（如字典、列表）、**变量名**、**函数签名**或**输入输出类型**等。\n\
+            2.  **填充业务空白：** 对于用户未提及的业务逻辑（如异常处理、边界情况），进行合理的补充和完善。\n3.  **生成文档：** 输出一份既包含业务流程，又严格遵守用户技术指定的需求文档。\n\
+            \n# Critical Rules (The \"Constitution\")\n1.  **技术约束不可侵犯：**\n    * 如果用户说\
+            \ \"输入必须是 `inventory: dict`\"，你**必须**将其列为硬性约束。\n    * **严禁** 修改用户的定义，例如将用户指定的\
+            \ `dict` 类型改为 `class`类型，或修改用户指定的字段名等。\n2.  **业务逻辑要具体：**\n    * 即使技术约束很具体，你依然要描述“逻辑流”。例如用户定义了函数接口，你要补充“库存不足时该函数具体怎么做”。\n\
+            3.  **不要写代码：** 依然保持用自然语言或伪代码描述，不要直接写 Python 实现。\n\n# Output Format (Structured\
+            \ Markdown)\n\n## 1. \U0001F3AF Project Overview\n* **目标：** 一句话概括系统功能。\n\
+            \n## 2. \U0001F510 Technical Constraints (用户指定的技术约束)\n* *注意：仅当用户在输入中明确指定了技术细节时填写此部分。如果用户没说，写\
+            \ \"None (由 Coder 自由发挥)\"。*\n* **数据结构约束：** (例如：User 指定 `orders` 必须是 `List[Dict]`)\n\
+            * **接口签名约束：** (例如：User 指定函数名为 `process_orders`，返回 `tuple`)\n* **字段命名约束：**\
+            \ (例如：必须包含 `qty` 字段)\n* **其他用户自定义的约束：** 用户在需求里提出的约束必须全部写出来，不能遗漏\n\n\n\
+            ## 3. \U0001F30A Business Logic Flow (业务逻辑流)\n* *这是给 Coder 的逻辑伪代码指引。*\n\
+            * *请根据实际逻辑复杂度列出步骤，不限数量。*\n1.  **Step 1:** ...\n2.  **Step 2:** ...\n3.\
+            \  **Step 3:** ...，可以有更多步骤\n\n## 4. ✅ Acceptance Criteria (验收标准)\n* *列出所有必须满足的验收条件，涵盖正常路径和边缘情况。*\
+            \  \n* **AC1:** ... \n* **AC2:** ... \n* **... (Add more as needed)**\n\
+            \n---"
         selected: false
         structured_output_enabled: false
         title: user story agent
         type: llm
         vision:
           enabled: false
-      height: 115
+      height: 121
       id: '1766666534467'
       position:
         x: 342
@@ -401,7 +382,7 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 87
+      height: 93
       id: '1766666714696'
       position:
         x: 683
@@ -441,22 +422,51 @@ workflow:
             \ value yourself. Write the mathematical expression and let Python calculate\
             \ it.\n❌ Bad: self.assertEqual(result, 27) (You might calculate wrong)\
             \ ✅ Good: self.assertEqual(result, 12 + (10 - 5) * 3) (Safe & Accurate)\n\
-            \n\n# Workflow\n1. **Analyze Code:** 阅读 `Source Code`，提取主函数名或类名（例如 `solution`\
-            \ 或 `calculate_tax`）。\n2. **Verify Logic:** 根据 `User Story` 理解预期的输入输出。\n\
-            3. **Write Tests:** 编写一个继承自 `unittest.TestCase` 的类。\n   - 包含正常情况 (Happy\
-            \ Path)。\n   - 包含边界情况 (Edge Cases)。\n\n# Output Format (JSON)\n请输出且仅输出一个\
-            \ JSON 列表，代表你的所有测试文件，列表里的每个json object代表一个测试文件。即使你觉得只需要一个测试文件，也要用json列表来包装\n\
-            \n格式要求：\n```json\n[\n  {\n    \"filename\": \"test.py\",\n    \"suffix\"\
-            : \"py\",\n    \"content\": \"import unittest\\n\\nclass TestSolution(unittest.TestCase):\\\
+            \nRULE: CHECK STATE SIDE-EFFECTS (检查状态副作用)\nRead the Source Code to see\
+            \ if a method modifies class attributes (e.g., `self.count -= 1`, `self.data.clear()`,\
+            \ or `self.status = False`).\nIf a method \"consumes\" a resource or changes\
+            \ a status, do not assume you can call it repeatedly with the same result.\n\
+            ❌ Bad: Calling a method in a loop assuming it always returns True (it\
+            \ might have used up a quota or cleared a list).\n✅ Good: If code shows\
+            \ `self.quota -= 1`, your test must handle the case where quota runs out\
+            \ (expect False or Exception).\n\nRULE: MANDATORY THOUGHT TRACE (强制思维链)\n\
+            You are NOT allowed to write the test code directly.\nInside your JSON\
+            \ object, you MUST include a field named `reasoning` **BEFORE** the `content`\
+            \ field.\nIn this `reasoning` field, you must write a short paragraph\
+            \ where you:\n1.  **List State Variables:** Identify variables in Source\
+            \ Code that change (e.g., `self.balance`, `self.inventory`).\n2.  **Trace\
+            \ Side Effects:** Explicitly state what happens to these variables after\
+            \ a method call (e.g., \"After purchase, balance resets to 0\").\n3. \
+            \ **Plan Reset Strategy:** If writing a loop or sequential test, decide\
+            \ when to re-initialize the state by **Simulate Code Execution**. You\
+            \ should simulate code execution as if you are the compiler or interpreter.\n\
+            4. **Evaluate Testcase Outcome:** Use reasoning to derive your steps that\
+            \ leads you to an outcome.\n\n*The quality of your code depends on this\
+            \ analysis.*\n\n# Workflow\n1. **Analyze Code:** 阅读 `Source Code`，提取主函数名或类名（例如\
+            \ `solution` 或 `calculate_tax`）。\n2. **Verify Logic:** 根据 `User Story`\
+            \ 理解预期的输入输出。\n3. **Perform Reasoning (逻辑推演):** 结合 `Source Code` 实现细节进行深度分析，包括但\
+            \ **不限于**： * **State Tracking (状态追踪):** 识别代码中的副作用（Side Effects）。比如：某个方法执行后是否重置了\
+            \ `self.balance` 或清空了列表？ * **Input Validation (边界检查):** 检查代码中的 `if` 条件（如\
+            \ `if x not in [1, 5, 10]`），确保测试输入的合法性。 * **Scenario Simulation (场景模拟):**\
+            \ 在编写代码前，先在脑海中运行一遍循环逻辑，判断第二次迭代是否需要重新初始化资源（如重新投币）。\n\n\n\n4. **Write Tests:**\
+            \ 编写一个继承自 `unittest.TestCase` 的类。\n   - 包含正常情况 (Happy Path)。\n   - 包含边界情况\
+            \ (Edge Cases)。\n\n# Output Format (JSON)\n请输出且仅输出一个 JSON 列表，代表你的所有测试文件，列表里的每个json\
+            \ object代表一个测试文件。即使你觉得只需要一个测试文件，也要用json列表来包装\n\n格式要求：\n```json\n[\n  {\n\
+            \    \"reasoning\": \"### This is just an example, customize per real\
+            \ code and requirement. \\nI see that 'purchase' sets self.balance = 0.\
+            \ So if I want to buy twice in a loop, I must call 'deposit' again inside\
+            \ the loop. Also, 'deposit' only accepts [1,5,10], so I cannot use 3.\"\
+            ,\",\n    \"filename\": \"test.py\",\n    \"suffix\": \"py\",\n    \"\
+            content\": \"import unittest\\n\\nclass TestSolution(unittest.TestCase):\\\
             n    def test_case_1(self):\\n        # 直接调用函数，无需导入\\n        self.assertEqual(solution(1,\
             \ 2), 3)\",\n    \"type\": \"test\"\n  }\n]\n\nConstraints:\n不要包含 Markdown\
             \ 代码块标记（如 ```python）。\n确保 JSON 格式合法。\n不要使用 if __name__ == '__main__':。\n"
-        selected: false
+        selected: true
         title: testcase agent
         type: llm
         vision:
           enabled: false
-      height: 115
+      height: 121
       id: '1766667562386'
       position:
         x: 1365
@@ -464,7 +474,7 @@ workflow:
       positionAbsolute:
         x: 1365
         y: 201
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -677,7 +687,7 @@ workflow:
         type: llm
         vision:
           enabled: false
-      height: 87
+      height: 93
       id: '1766682500741'
       parentId: '1766681217998'
       position:
@@ -1015,14 +1025,14 @@ workflow:
       positionAbsolute:
         x: 1706
         y: 233
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
       zIndex: 1002
     viewport:
-      x: -1148.6270005879355
-      y: 206.04613241184686
-      zoom: 0.4113315376233915
+      x: -301.514817290883
+      y: 127.25506217004715
+      zoom: 0.48644076529962416
   rag_pipeline_variables: []
