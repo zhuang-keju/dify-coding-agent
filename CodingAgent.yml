@@ -295,11 +295,11 @@ workflow:
         - default: 我要一个貪吃蛇游戏
           hint: ''
           label: project_requirement
-          max_length: 256
+          max_length: 20000
           options: []
           placeholder: ''
           required: true
-          type: text-input
+          type: paragraph
           variable: project_requirement
       height: 108
       id: '1766665854400'
@@ -497,9 +497,9 @@ workflow:
             \ 在编写代码前，先在脑海中运行一遍循环逻辑，判断第二次迭代是否需要重新初始化资源（如重新投币）。\n\n\n\n4. **Write Tests:**\
             \ 编写一个继承自 `unittest.TestCase` 的类。\n   - 包含正常情况 (Happy Path)。\n   - 包含边界情况\
             \ (Edge Cases)。\n\n# Output Format (JSON)\n请输出且仅输出一个 JSON 列表，代表你的所有测试文件，列表里的每个json\
-            \ object代表一个测试文件。即使你觉得只需要一个测试文件，也要用json列表来包装\n\n格式要求：\n```json\n[\n  {\n\
-            \    {\n  \"reasoning_example\": \"### Analytical walkthrough for 'MarkdownParser':\\\
-            n\\n1. **Logic Flow & Edge Cases:**\\n   - I noticed the `parse_line(text)`\
+            \ object代表一个测试文件。即使你觉得只需要一个测试文件，也要用json列表来包装\n\n格式要求：\n[\n  {\n      \"\
+            reasoning\": \"### Analytical walkthrough for 'MarkdownParser':\\n\\n1.\
+            \ **Logic Flow & Edge Cases:**\\n   - I noticed the `parse_line(text)`\
             \ method behaves differently based on the `in_code_block` boolean flag.\\\
             n   - **Observation:** If `text` starts with '```', it toggles the flag.\
             \ \\n   - **Testing Implication:** I cannot just test a header line (`#\
@@ -518,7 +518,13 @@ workflow:
             import unittest\\n\\nclass TestSolution(unittest.TestCase):\\n    def\
             \ test_case_1(self):\\n        # 直接调用函数，无需导入\\n        self.assertEqual(solution(1,\
             \ 2), 3)\",\n    \"type\": \"test\"\n  }\n]\n\nConstraints:\n不要包含 Markdown\
-            \ 代码块标记（如 ```python）。\n确保 JSON 格式合法。\n不要使用 if __name__ == '__main__':。\n"
+            \ 代码块标记（如 ```python）。\n确保 JSON 格式合法。\n不要使用 if __name__ == '__main__':。\n\
+            [JSON Formatting Rules]\nNO UNESCAPED QUOTES: If you need to quote something\
+            \ inside the reasoning text, use Single Quotes (') or **Backticks ()**.\
+            \ Never use Double Quotes (\") inside the JSON value unless they are escaped\
+            \ (\"`).\nBad: \"reasoning\": \"I set the value to \"\" empty string\"\
+            \nGood: \"reasoning\": \"I set the value to '' empty string\"\nGood: \"\
+            reasoning\": \"I set the value to \"\" empty string\""
         - id: 528fe4bd-2f88-40b0-8c79-af53c90543ae
           role: user
           text: '**User Story**: {{#1766666534467.text#}}
@@ -555,10 +561,10 @@ workflow:
       height: 87
       id: '1766680328187'
       position:
-        x: 4919
+        x: 5240
         y: 215
       positionAbsolute:
-        x: 4919
+        x: 5240
         y: 215
       selected: false
       sourcePosition: right
@@ -586,11 +592,19 @@ workflow:
           - current_testcase
           value_type: variable
           var_type: string
+        - id: ac58c11c-2140-4d3b-803f-22b324d54c19
+          label: memory
+          value_type: variable
+          var_type: string
+        - id: e09971be-6c09-4594-a968-a33c2918fc8e
+          label: loop_index
+          value_type: variable
+          var_type: number
         selected: false
         start_node_id: 1766681217998start
         title: 循环
         type: loop
-        width: 2772
+        width: 3093
       height: 518
       id: '1766681217998'
       position:
@@ -603,7 +617,7 @@ workflow:
       sourcePosition: right
       targetPosition: left
       type: custom
-      width: 2772
+      width: 3093
       zIndex: 1
     - data:
         desc: ''
@@ -738,14 +752,26 @@ workflow:
             \ structure.\nConsistency: Keep entry points (function names, class names)\
             \ identical.\nConflict Resolution: If BOTH need fixing, choose to fix\
             \ the TEST CASE first (to establish a correct standard for the next loop).\n\
-            Output Format: You must output a SINGLE JSON Object. Do not output Markdown\
+            \nOutput Format: You must output a SINGLE JSON Object. Do not output Markdown\
             \ blocks outside the JSON.\n\n{\n  \"reasoning\": \"Brief analysis of\
             \ the error. Explicitly state WHY you chose to fix this specific file\
             \ (e.g., 'The test fails because it tries to call a non-existent function\
             \ `add` globally, but the source defines it inside `Addition` class.').\"\
             ,\n  \"target_file\": \"SOURCE\",  // or \"TEST\", only those two.\n \
             \ \"file_content\": \"The FULL content of the fixed file (Source or Test).\"\
-            \n}"
+            \n}\n\nYou may include simple comments noting what have you fixed in the\
+            \ `file_content` field of the JSON, but no extended thinking in comments.\
+            \ all thinking should be indicated in the `reasoning` field.\n\n❌ BAD\
+            \ COMMENTS (Strictly Prohibited): Do not write your \"stream of consciousness\"\
+            \ or \"thinking process\" in comments.\n# I am thinking maybe I should\
+            \ change this loop...\n# Let me try to see if using a stack works better...\n\
+            # Wait, this logic might fail for negative numbers, let me reconsider...\n\
+            # The previous code was 1+1=3, which is wrong. I am trying to find a way\
+            \ to make it 2. Let's try method A...\n✅ GOOD COMMENTS (Allowed): Write\
+            \ comments that explain the outcome or the reason for a specific fix.\n\
+            # Fix: Corrected arithmetic logic (1+1=2).\n# Note: This regex handles\
+            \ nested brackets.\n# Bugfix: Previously, digits were incorrectly treated\
+            \ as multipliers only.\n"
         - id: 0455c727-fe9a-4571-bbcf-b61af2513067
           role: user
           text: '**Source Code**: {{#1766681217998.current_code#}}
@@ -794,21 +820,28 @@ workflow:
           - '1766681217998'
           - current_code
           write_mode: over-write
+        - input_type: constant
+          operation: +=
+          value: 1
+          variable_selector:
+          - '1766681217998'
+          - loop_index
+          write_mode: over-write
         loop_id: '1766681217998'
         selected: false
         title: 变量赋值
         type: assigner
         version: '2'
-      height: 83
+      height: 109
       id: '1766682647945'
       parentId: '1766681217998'
       position:
-        x: 2451
-        y: 146
+        x: 2471
+        y: 302
       positionAbsolute:
-        x: 4498
-        y: 146
-      selected: true
+        x: 4518
+        y: 302
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -908,8 +941,22 @@ workflow:
       width: 241
       zIndex: 1002
     - data:
-        code: "import re\nimport json\n\ndef main(llm_output: str) -> dict:\n    code\
-          \ = llm_output.strip()\n    \n    # ----------------------------------------\n\
+        code: "import re\nimport json\n\n\n\ndef safe_json_decode(raw_str):\n    \"\
+          \"\"尝试将提取出的原始字符串(包含转义符)转换为真实字符串\"\"\"\n    try:\n        # 加上引号假装它是独立的 JSON\
+          \ 字符串\n        return json.loads(f'\"{raw_str}\"')\n    except:\n      \
+          \  return raw_str\n\n\n\ndef regex_decode(text):\n    pair_pattern = (\n\
+          \        r'\"target_file\"\\s*:\\s*\"(.*?)(?<!\\\\)\"'   # Group 1: target_file\
+          \ (SOURCE 或 TEST)\n        r'.*?'                                  # 忽略中间的杂音\
+          \ (非贪婪匹配)\n        r'\"file_content\"\\s*:\\s*\"(.*?)(?<!\\\\)\"'  # Group\
+          \ 2: file_content (代码内容)\n    )    \n\n    match = re.search(pair_pattern,\
+          \ text, re.DOTALL)\n    \n    if match:\n        # 1. 提取原始字符串 (Raw String)\n\
+          \        raw_target = match.group(1)\n        raw_content = match.group(2)\n\
+          \        \n        # 2. 解码转义字符\n        target = safe_json_decode(raw_target)\n\
+          \        content = safe_json_decode(raw_content)\n        \n        # 3.\
+          \ 二次清洗内容 (去除末尾可能的 /n)\n        content = remove_trailing_slash(content)\n\
+          \        \n        # 4. 返回字典\n        return {\n            \"target\":\
+          \ target,\n            \"content\": content\n        }\n\n\n\ndef main(llm_output:\
+          \ str) -> dict:\n    code = llm_output.strip()\n    \n    # ----------------------------------------\n\
           \    # 1. 尝试剥离 Markdown (```python ... ```)\n    # ----------------------------------------\n\
           \    # 这里的正则解释：\n    # ```             -> 匹配开头反引号\n    # (?:python|json)?\
           \ -> 可选的语言标记 (python 或 json)，?:表示不捕获\n    # \\s* -> 吃掉换行符\n    # (.*?) \
@@ -924,9 +971,11 @@ workflow:
           \ = data[\"code\"]\n    except json.JSONDecodeError:\n        # 如果不是 JSON，那说明剥离\
           \ Markdown 后就是纯 Python 代码了，不做处理\n        pass\n\n    # http_body_struct\
           \ = {\n    #     \"code\": code\n    # }\n    # python打包json，不用dify打包\n\n\
-          \    update = json.loads(code)\n\n    return {\n        # \"payload\": json.dumps(http_body_struct)\
-          \ ,\n        # 输出变成了字符串：{\"code\": \"def ...\"}\n        \"target\": update[\"\
-          target_file\"],\n        \"content\": update[\"file_content\"]\n\n    }"
+          \    try:\n        update = json.loads(code)\n    except:\n        update\
+          \ = regex_decode(code)\n        return update\n\n    return {\n        #\
+          \ \"payload\": json.dumps(http_body_struct) ,\n        # 输出变成了字符串：{\"code\"\
+          : \"def ...\"}\n        \"target\": update[\"target_file\"],\n        \"\
+          content\": update[\"file_content\"]\n\n    }"
         code_language: python3
         isInIteration: false
         isInLoop: true
@@ -971,15 +1020,16 @@ workflow:
           \          -> 核心捕获组：提取中间的所有代码 (非贪婪)\n    # ```             -> 匹配结尾反引号\n\
           \    # re.DOTALL       -> 让点号(.)可以匹配换行符，这很关键！\n    pattern = r\"```(?:python|json)?\\\
           s*(.*?)```\"\n    match = re.search(pattern, code, re.DOTALL | re.IGNORECASE)\n\
-          \    \n    if match:\n        code = match.group(1).strip()\n    \n    #\
-          \ ----------------------------------------\n    # 2. 如果这本身是一段 JSON 字符串（有时候\
-          \ LLM 会把 JSON 包在 Markdown 里）\n    #    我们需要把它解开，只拿里面的 code 字段\n    # ----------------------------------------\n\
-          \n    # 我觉得这一段可以注释掉\n    try:\n        # 尝试解析 JSON\n        data = json.loads(code)\n\
-          \        if isinstance(data, dict) and \"code\" in data:\n            code\
-          \ = data[\"code\"]\n    except json.JSONDecodeError:\n        # 如果不是 JSON，那说明剥离\
-          \ Markdown 后就是纯 Python 代码了，不做处理\n        pass\n\n    http_body_struct =\
-          \ {\n        \"code\": code\n    }\n    # python打包json，不用dify打包\n    return\
-          \ {\n        \"current_code\": code\n\n    }"
+          \    \n    if match:\n        code = match.group(1).strip()\n    code =\
+          \ code.strip(\"`\")\n    # ----------------------------------------\n  \
+          \  # 2. 如果这本身是一段 JSON 字符串（有时候 LLM 会把 JSON 包在 Markdown 里）\n    #    我们需要把它解开，只拿里面的\
+          \ code 字段\n    # ----------------------------------------\n\n    # 我觉得这一段可以注释掉\n\
+          \    try:\n        # 尝试解析 JSON\n        data = json.loads(code)\n      \
+          \  if isinstance(data, dict) and \"code\" in data:\n            code = data[\"\
+          code\"]\n    except json.JSONDecodeError:\n        # 如果不是 JSON，那说明剥离 Markdown\
+          \ 后就是纯 Python 代码了，不做处理\n        pass\n\n    http_body_struct = {\n     \
+          \   \"code\": code\n    }\n    # python打包json，不用dify打包\n    return {\n \
+          \       \"current_code\": code\n\n    }"
         code_language: python3
         isInIteration: false
         isInLoop: true
@@ -1055,16 +1105,36 @@ workflow:
       width: 241
       zIndex: 1002
     - data:
-        code: "import re\nimport json\n\ndef remove_trailing_slash(content):\n   \
-          \ # === ✂️ 核心清洗区 Start ===\n    \n    # 1. 移除首尾空白\n    content = content.strip()\n\
+        code: "import re\nimport json\n\ndef safe_json_decode(raw_str):\n    \"\"\"\
+          尝试将提取出的原始字符串(包含转义符)转换为真实字符串\"\"\"\n    try:\n        # 加上引号假装它是独立的 JSON\
+          \ 字符串\n        return json.loads(f'\"{raw_str}\"')\n    except:\n      \
+          \  return raw_str\n\n\ndef remove_trailing_slash(content):\n    # === ✂️\
+          \ 核心清洗区 Start ===\n    \n    # 1. 移除首尾空白\n    content = content.strip()\n\
           \    \n    # 2. \U0001F525 暴力移除末尾的垃圾字符 /n 或 \\n \n    # 有时候模型会重复写好几个，所以用\
           \ while 循环删干净\n    while content.endswith(\"/n\") or content.endswith(\"\
           \\\\n\"):\n        if content.endswith(\"/n\"):\n            content = content[:-2]\n\
           \        elif content.endswith(\"\\\\n\"):\n            content = content[:-2]\n\
           \    \n    # 3. 再次移除可能剩下的空白\n    content = content.strip()\n    return content\n\
-          \n\n\n\ndef main(llm_output: str) -> dict:\n    code = llm_output.strip()\n\
-          \    \n    # ----------------------------------------\n    # 1. 尝试剥离 Markdown\
-          \ (```python ... ```)\n    # ----------------------------------------\n\
+          \ndef regex_decode(text):\n    triplet_pattern = (\n        r'\"filename\"\
+          \\s*:\\s*\"(.*?)(?<!\\\\)\"'  # Group 1: filename\n        r'.*?'      \
+          \                        # Skip garbage\n        r'\"suffix\"\\s*:\\s*\"\
+          (.*?)(?<!\\\\)\"'    # Group 2: suffix\n        r'.*?'                 \
+          \             # Skip garbage\n        r'\"content\"\\s*:\\s*\"(.*?)(?<!\\\
+          \\)\"'   # Group 3: content\n    )\n    \n    matches = re.finditer(triplet_pattern,\
+          \ text, re.DOTALL)\n    \n    final_code = \"\"\n    found_any = False\n\
+          \    \n    for match in matches:\n        found_any = True\n        \n \
+          \       # 提取 raw string\n        raw_fname = match.group(1)\n        raw_suffix\
+          \ = match.group(2)\n        raw_content = match.group(3)\n        \n   \
+          \     # 解码转义字符 (处理 \\n, \\\", \\t 等)\n        fname = safe_json_decode(raw_fname)\n\
+          \        suffix = safe_json_decode(raw_suffix)\n        content = safe_json_decode(raw_content)\n\
+          \        \n        # 二次清洗代码内容\n        content = remove_trailing_slash(content)\n\
+          \        \n        # 拼接\n        # final_code += f\"# File: {fname} (Type:\
+          \ {suffix})\\n\"\n        if suffix == \"py\":\n            final_code +=\
+          \ content + \"\\n\\n\"\n    return final_code.strip()\n    # if not found_any:\n\
+          \        ## 如果彻底匹配失败，返回原文本以便调试\n        # return {\"current_testcase\":\
+          \ \"# EXTRACTION FAILED\\n\" + text}\n\n\n\n\ndef main(llm_output: str)\
+          \ -> dict:\n    code = llm_output.strip()\n    \n    # ----------------------------------------\n\
+          \    # 1. 尝试剥离 Markdown (```python ... ```)\n    # ----------------------------------------\n\
           \    # 这里的正则解释：\n    # ```             -> 匹配开头反引号\n    # (?:python|json)?\
           \ -> 可选的语言标记 (python 或 json)，?:表示不捕获\n    # \\s* -> 吃掉换行符\n    # (.*?) \
           \          -> 核心捕获组：提取中间的所有代码 (非贪婪)\n    # ```             -> 匹配结尾反引号\n\
@@ -1076,7 +1146,9 @@ workflow:
           \n    # 我觉得这一段可以注释掉\n    try:\n        # 尝试解析 JSON\n        data = json.loads(code)\n\
           \        if isinstance(data, dict) and \"code\" in data:\n            code\
           \ = data[\"code\"]\n    except json.JSONDecodeError:\n        # 如果不是 JSON，那说明剥离\
-          \ Markdown 后就是纯 Python 代码了，不做处理\n        pass\n\n    code = json.loads(code)\n\
+          \ Markdown 后就是纯 Python 代码了，不做处理\n        pass\n    try:\n        code =\
+          \ json.loads(code)\n    except:\n        regex_decode_result = regex_decode(code)\n\
+          \        return {\"current_testcase\":\n        regex_decode_result}\n\n\
           \    if isinstance(code, dict):\n        code = [code]\n    code_extracted\
           \ = \"\"\n    for obj in code:\n        if obj[\"suffix\"] == \"py\":\n\
           \            obj_code = obj[\"content\"]\n            obj_code = remove_trailing_slash(obj_code)\n\
@@ -1170,28 +1242,35 @@ workflow:
           - '1766681217998'
           - current_testcase
           write_mode: over-write
+        - input_type: constant
+          operation: +=
+          value: 1
+          variable_selector:
+          - '1766681217998'
+          - loop_index
+          write_mode: over-write
         loop_id: '1766681217998'
-        selected: false
+        selected: true
         title: 变量赋值 2
         type: assigner
         version: '2'
-      height: 83
+      height: 109
       id: '1766973466943'
       parentId: '1766681217998'
       position:
         x: 2471
-        y: 289
+        y: 133
       positionAbsolute:
         x: 4518
-        y: 289
-      selected: false
+        y: 133
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
       zIndex: 1002
     viewport:
-      x: 0
-      y: 0
-      zoom: 0.7
+      x: -1923.9009614717743
+      y: 131.5566824682303
+      zoom: 0.5352673998912678
   rag_pipeline_variables: []
