@@ -38,3 +38,5 @@ Major updates:
 
 Note: This is the final stable Dify version before potential migration to LangGraph.
 
+
+most relevant TODO: add small memory of each step in the self correction loop.

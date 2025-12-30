@@ -592,14 +592,6 @@ workflow:
           - current_testcase
           value_type: variable
           var_type: string
-        - id: ac58c11c-2140-4d3b-803f-22b324d54c19
-          label: memory
-          value_type: variable
-          var_type: string
-        - id: e09971be-6c09-4594-a968-a33c2918fc8e
-          label: loop_index
-          value_type: variable
-          var_type: number
         selected: false
         start_node_id: 1766681217998start
         title: 循环
@@ -820,19 +812,12 @@ workflow:
           - '1766681217998'
           - current_code
           write_mode: over-write
-        - input_type: constant
-          operation: +=
-          value: 1
-          variable_selector:
-          - '1766681217998'
-          - loop_index
-          write_mode: over-write
         loop_id: '1766681217998'
         selected: false
         title: 变量赋值
         type: assigner
         version: '2'
-      height: 109
+      height: 83
       id: '1766682647945'
       parentId: '1766681217998'
       position:
@@ -944,18 +929,25 @@ workflow:
         code: "import re\nimport json\n\n\n\ndef safe_json_decode(raw_str):\n    \"\
           \"\"尝试将提取出的原始字符串(包含转义符)转换为真实字符串\"\"\"\n    try:\n        # 加上引号假装它是独立的 JSON\
           \ 字符串\n        return json.loads(f'\"{raw_str}\"')\n    except:\n      \
-          \  return raw_str\n\n\n\ndef regex_decode(text):\n    pair_pattern = (\n\
-          \        r'\"target_file\"\\s*:\\s*\"(.*?)(?<!\\\\)\"'   # Group 1: target_file\
-          \ (SOURCE 或 TEST)\n        r'.*?'                                  # 忽略中间的杂音\
-          \ (非贪婪匹配)\n        r'\"file_content\"\\s*:\\s*\"(.*?)(?<!\\\\)\"'  # Group\
-          \ 2: file_content (代码内容)\n    )    \n\n    match = re.search(pair_pattern,\
-          \ text, re.DOTALL)\n    \n    if match:\n        # 1. 提取原始字符串 (Raw String)\n\
-          \        raw_target = match.group(1)\n        raw_content = match.group(2)\n\
-          \        \n        # 2. 解码转义字符\n        target = safe_json_decode(raw_target)\n\
-          \        content = safe_json_decode(raw_content)\n        \n        # 3.\
-          \ 二次清洗内容 (去除末尾可能的 /n)\n        content = remove_trailing_slash(content)\n\
-          \        \n        # 4. 返回字典\n        return {\n            \"target\":\
-          \ target,\n            \"content\": content\n        }\n\n\n\ndef main(llm_output:\
+          \  return raw_str\n\n\ndef remove_trailing_slash(content):\n    # === ✂️\
+          \ 核心清洗区 Start ===\n    \n    # 1. 移除首尾空白\n    content = content.strip()\n\
+          \    \n    # 2. \U0001F525 暴力移除末尾的垃圾字符 /n 或 \\n \n    # 有时候模型会重复写好几个，所以用\
+          \ while 循环删干净\n    while content.endswith(\"/n\") or content.endswith(\"\
+          \\\\n\"):\n        if content.endswith(\"/n\"):\n            content = content[:-2]\n\
+          \        elif content.endswith(\"\\\\n\"):\n            content = content[:-2]\n\
+          \    \n    # 3. 再次移除可能剩下的空白\n    content = content.strip()\n    return content\n\
+          \n\n\ndef regex_decode(text):\n    pair_pattern = (\n        r'\"target_file\"\
+          \\s*:\\s*\"(.*?)(?<!\\\\)\"'   # Group 1: target_file (SOURCE 或 TEST)\n\
+          \        r'.*?'                                  # 忽略中间的杂音 (非贪婪匹配)\n   \
+          \     r'\"file_content\"\\s*:\\s*\"(.*?)(?<!\\\\)\"'  # Group 2: file_content\
+          \ (代码内容)\n    )    \n\n    match = re.search(pair_pattern, text, re.DOTALL)\n\
+          \    \n    if match:\n        # 1. 提取原始字符串 (Raw String)\n        raw_target\
+          \ = match.group(1)\n        raw_content = match.group(2)\n        \n   \
+          \     # 2. 解码转义字符\n        target = safe_json_decode(raw_target)\n     \
+          \   content = safe_json_decode(raw_content)\n        \n        # 3. 二次清洗内容\
+          \ (去除末尾可能的 /n)\n        content = remove_trailing_slash(content)\n     \
+          \   \n        # 4. 返回字典\n        return {\n            \"target\": target,\n\
+          \            \"content\": content\n        }\n\n\n\ndef main(llm_output:\
           \ str) -> dict:\n    code = llm_output.strip()\n    \n    # ----------------------------------------\n\
           \    # 1. 尝试剥离 Markdown (```python ... ```)\n    # ----------------------------------------\n\
           \    # 这里的正则解释：\n    # ```             -> 匹配开头反引号\n    # (?:python|json)?\
@@ -1005,7 +997,7 @@ workflow:
       positionAbsolute:
         x: 3856
         y: 191
-      selected: false
+      selected: true
       sourcePosition: right
       targetPosition: left
       type: custom
@@ -1242,19 +1234,12 @@ workflow:
           - '1766681217998'
           - current_testcase
           write_mode: over-write
-        - input_type: constant
-          operation: +=
-          value: 1
-          variable_selector:
-          - '1766681217998'
-          - loop_index
-          write_mode: over-write
         loop_id: '1766681217998'
-        selected: true
+        selected: false
         title: 变量赋值 2
         type: assigner
         version: '2'
-      height: 109
+      height: 83
       id: '1766973466943'
       parentId: '1766681217998'
       position:
@@ -1263,14 +1248,14 @@ workflow:
       positionAbsolute:
         x: 4518
         y: 133
-      selected: true
+      selected: false
       sourcePosition: right
       targetPosition: left
       type: custom
       width: 241
       zIndex: 1002
     viewport:
-      x: -1923.9009614717743
-      y: 131.5566824682303
+      x: -1411.900961471774
+      y: 196.5566824682303
       zoom: 0.5352673998912678
   rag_pipeline_variables: []
